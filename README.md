@@ -2,7 +2,7 @@ Commerce Wechatpay
 ==============
 
 Wechat payment method for Drupal Commerce
-微信支付模块
+(微信支付模块)
 
 Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612324) now
 
