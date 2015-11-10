@@ -105,14 +105,16 @@ Wechat payment method for Drupal Commerce
   }
   ```
   
-  2. then define your own PHP function
+  2. then define your own PHP qr generation function
   ```php
   function YOUR_GENERATOR_FUNCTION_NAME($content)
   {
-    // some process generation from $content
-    // blabla
-    
-    return $qr;
+    // some little tip here: you can use phpqrcode plugin to generate with PHP, 
+    // which save A LOT!! times instead of requesting outside resouces like GOOGLE QRcode
+    // @see https://github.com/t0k4rt/phpqrcode
+    include_once 'LIBRARIES_FOLDER/t0k4rt_phpqrcode/qrlib.php';
+    QRcode::png($content, null);
+
   }
   ```
 
