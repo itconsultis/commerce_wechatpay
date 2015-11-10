@@ -21,7 +21,7 @@ function hook_commerce_wechatpay_class_name_alter(&$class_name) {
 }
 
 /**
- * Allows modules to alter javascript handler function name.
+ * Allows modules to alter process javascript handler function name.
  * The function must bind to window where the module can call it globally.
  *
  * By default is "proceedWXPayment"
@@ -32,7 +32,22 @@ function hook_commerce_wechatpay_class_name_alter(&$class_name) {
  * @see commerce_wechatpay_get_js_function()
  */
 function hook_commerce_wechatpay_javascript_handler_name_alter(&$js_function_name) {
-  $js_function_name = 'YOUR_OWN_JS_HANDLER_FUNCTION';
+  $js_function_name = 'YOUR_OWN_JS_PROCESS_HANDLER_FUNCTION';
+}
+
+/**
+ * Allows modules to alter wait&check javascript handler function name which waits for user to scan and redirect to successful page when it's done.
+ * The function must bind to window where the module can call it globally.
+ *
+ * By default is "qrCheckingLoop"
+ *
+ * @param string $js_function_name
+ *   Our js handler name
+ *
+ * @see commerce_wechatpay_get_js_function()
+ */
+function hook_commerce_wechatpay_javascript_checking_loop_handler_name_alter(&$js_function_name) {
+  $js_function_name = 'YOUR_OWN_JS_CHECKING_HANDLER_FUNCTION';
 }
 
 /**

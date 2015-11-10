@@ -123,11 +123,20 @@ function commerce_wechatpay_get_handler_class() {
   return $class_name;
 }
 
-function commerce_wechatpay_get_js_function() {
+function commerce_wechatpay_get_js_process_function() {
   $js_function_name = 'proceedWXPayment';
 
   // provide API to let other module alter handler class name
   drupal_alter('commerce_wechatpay_javascript_handler_name', $js_function_name);
+
+  return $js_function_name;
+}
+
+function commerce_wechatpay_get_js_checking_function() {
+  $js_function_name = 'qrCheckingLoop';
+
+  // provide API to let other module alter handler class name
+  drupal_alter('commerce_wechatpay_javascript_checking_loop_handler_name', $js_function_name);
 
   return $js_function_name;
 }
@@ -286,8 +295,8 @@ function commerce_wechatpay_checkout_mp_handler ($data, $class, $order_id, &$for
 
   watchdog('commerce_wechatpay', 'Talking to wechatpay with json parameters: %json', array('%json' => $jsParms));
 
-  $js_function_name = commerce_wechatpay_get_js_function();
-  drupal_add_js($js_function_name.'('.$jsParms.', "'.$data['return_success_url'].'", "'.$data['return_failure_url'].'");', 'inline');
+  $js_process_function = commerce_wechatpay_get_js_function();
+  drupal_add_js($js_process_function.'('.$jsParms.', "'.$data['return_success_url'].'", "'.$data['return_failure_url'].'");', 'inline');
 }
 
 /**
@@ -313,7 +322,8 @@ function commerce_wechatpay_checkout_qr_handler ($data, $class, $order_id, &$for
 
   $order_status_check_url = url('commerce_wechatpay/order_status_check/'.$order_id, array('absolute' => TRUE));
 
-  drupal_add_js('qrCheckingLoop("' . $order_status_check_url . '", "' . $data['return_success_url'] . '");', 'inline');
+  $js_checking_function = commerce_wechatpay_get_js_checking_function();
+  drupal_add_js($js_checking_function.'("' . $order_status_check_url . '", "' . $data['return_success_url'] . '");', 'inline');
 
 }
 
