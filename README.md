@@ -27,11 +27,16 @@ This moudle is using the v3 interface of wechatpay.
 
 1. Merchat pay (jsapi)([公众号支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_1))
 
-  This payment requires opening payment page in Wechat browser
+  Requires opening payment page in Wechat browser, otherwise will return error. This method is good when developing all-browse-in-wechat web page.
 
 2. QR code pay (native)([扫码支付](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1))
 
-  This payment provides a QR code image when going to the off-site payment gateway, allows user to scan the QR code and pay directly in Wechat
+  Provides a QR code image when going to the off-site payment gateway, allows user to scan the QR code and pay directly in Wechat. If opening payment page in Wechat browser, user can long-press the QRcode to pay (wechat build-in feature) but will not be returned back to successful page.
+  
+3. Mixed with Merchat pay and QR code pay (Comming soon)
+  
+  By detecting user browser information, lead user to one of the above method. This method is still under development.
 
 ## Extra stuff...
-The reason didn't use Wechatpay official sdk is because they put all credentials (APPID, Secret, MCHID, key) in "WxPay.Config.php", WTF...TT
+
+I'm sorry to say but the reason I didn't use Wechatpay official sdk is because they put all credentials (APPID, Secret, MCHID, key) in "WxPay.Config.php", WTF...TT
