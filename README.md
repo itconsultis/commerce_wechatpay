@@ -16,6 +16,7 @@ This moudle is using the v3 interface of wechatpay.
   ```shell
   cd PATH_TO/libraries
   git clone https://github.com/overtrue/wechat.git
+  mv wechat/ overtrue_wechat/
   ```
   
   更多关于此SDK的信息请[参考文档](https://github.com/overtrue/wechat/wiki/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
