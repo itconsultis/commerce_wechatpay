@@ -1,6 +1,38 @@
 <?php
 
 /**
+ * Implements hook_requirements().
+ */
+function commerce_wechatpay_requirements($phase) {
+  $requirements = array();
+
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    // Require overtrue_wechat package
+
+    $requirements['overtrue_wechat'] = array(
+      'title' => $t('Overtrue_wechat SDK'),
+    );
+
+    $libraries = libraries_get_libraries();
+    if (isset($libraries['overtrue_wechat'])) {
+      $requirements['overtrue_wechat']['value'] = $t('Installed');
+      $requirements['overtrue_wechat']['severity'] = REQUIREMENT_OK;
+    }
+    else {
+      $requirements['overtrue_wechat']['value'] = $t('Not Installed');
+      $requirements['overtrue_wechat']['severity'] = REQUIREMENT_ERROR;
+      $requirements['overtrue_wechat']['description'] = $t('Please download the overtrue_wechat SDK package via %url and place it inside libraries folder with structure -> "sites/all/libraries/overtrue_wechat/src/Wechat/..."', array('%url' => 'https://github.com/overtrue/wechat'));
+    }
+
+  }
+
+  return $requirements;
+
+}
+
+/**
  * Implements hook_init().
  */
 function commerce_wechatpay_init() {
