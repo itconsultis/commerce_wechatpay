@@ -7,9 +7,9 @@ Wechat payment method for Drupal Commerce
 
 1. SDK package [overtrue/wechat](https://github.com/overtrue/wechat)
 
-  在安装本模块前，请下载overtrue的wechatSDK，并重命名为"overtrue_wechat"，放入"libraries"文件夹中
+  在安装本模块前，请下载overtrue的wechatSDK，并放入"libraries"文件夹中
   
-  Please download SDK package, rename it to "overtrue_wechat" and put inside "libraries" folder before install this module
+  Please download SDK package and put inside "libraries" folder before install this module
 
   ```shell
   cd PATH_TO_DRUPAL/sites/all/libraries

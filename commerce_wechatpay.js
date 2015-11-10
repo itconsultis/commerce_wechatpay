@@ -98,26 +98,27 @@
         var flag = false;
 
         var request = function () {
+            //console.log('requesting...');
             jQuery.ajax({
                 url: url,
                 success: function(data){
-                    console.log(data);
+                    //console.log(data);
                     if(data == 'done!'){
                         flag = true;
                     }
                 }
             });
+
+            return false;
         };
 
         var weixin_payment_status_updated = function() {
-            request();
-            if(flag){
-                return true;
-            } else {
-                return false;
-            }
-
+            //console.log('checking...');
+           return flag;
         };
+
+        // send request every 2 seconds
+        when(request, function(err) {}, 60000, 2000);
 
         // wait 60 sec for success status
         when(weixin_payment_status_updated, function(err) {
@@ -125,7 +126,7 @@
                 alert('支付成功！');
                 window.location = return_success_url;
             }
-        }, 60000, 3000);
+        }, 60000, 500);
     }
 
 })(jQuery);
