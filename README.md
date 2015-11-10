@@ -14,7 +14,7 @@ This moudle is using the v3 interface of wechatpay.
   Please download SDK package and put inside "libraries" folder before install this module
 
   ```shell
-  cd PATH_TO/libraries
+  cd PATH_TO_DRUPAL/sites/all/libraries
   git clone https://github.com/overtrue/wechat.git
   mv wechat/ overtrue_wechat/
   ```
