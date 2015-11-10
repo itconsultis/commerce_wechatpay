@@ -21,13 +21,25 @@ Wechat payment method for Drupal Commerce
   
   More inforamtion about overtrue_wechat please [see docs](https://github.com/overtrue/wechat/wiki/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
 
-## Features
+## Installation
+
+1. Follow the default way of set-up a payment module for Drupal Commerce, take a look at [commerce_paypal](https://www.drupal.org/project/commerce_paypal) installation if you don't understand.
+
+2. Configure Wechat payment
+
+
+
+## Payment methods
 
 1. Merchat pay (jsapi)([公众号支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_1))
 
   Requires opening payment page in Wechat browser, otherwise will return error. This method is good when developing all-browse-in-wechat web page.
 
 2. QR code pay (native)([扫码支付](https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_1))
+
+  (本模块使用的是扫码支付的支付模式二，所以无需设置扫码支付的支付回调URL)
+
+  (This module uses wechat scan&pay mode 2, so no need to set redirect URL on scan&pay settings area)
 
   Provides a QR code image when going to the off-site payment gateway, allows user to scan the QR code and pay directly in Wechat. If opening payment page in Wechat browser, user can long-press the QRcode to pay (wechat build-in feature) but will not be returned back to successful page.
   
