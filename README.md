@@ -27,7 +27,13 @@ Wechat payment method for Drupal Commerce
 
 2. Configure Wechat payment
 
+  Set an authorized URL alias in Wechat back-office, [image example](https://raw.githubusercontent.com/tomzhu6066/commerce_wechatpay/master/commerce_wechatpay_configuration.jpg)
 
+  在微信公众平台的后台，将如下地址设置为一个支付授权目录, [图片示例](https://raw.githubusercontent.com/tomzhu6066/commerce_wechatpay/master/commerce_wechatpay_configuration.jpg)
+
+  ```
+  http://YOUR_DOMAIN.COM/ALIAS_TO_DRUPAL_ROOT/commerce_wechatpay/checkout/
+  ```
 
 ## Payment methods
 
