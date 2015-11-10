@@ -1,9 +1,7 @@
 Commerce Wechatpay
 ==============
 
-This moudle is using the v3 interface of wechatpay.
-
-本模块使用的是微信支付v3接口。
+Wechat payment method for Drupal Commerce
 
 ## Requirements
 
