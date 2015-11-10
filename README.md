@@ -37,6 +37,68 @@ This moudle is using the v3 interface of wechatpay.
   
   By detecting user browser information, lead user to one of the above method. This method is still under development.
 
+## API docs
+
+1. Overwrite main class handler rather than our class "CommerceWechatpay"
+  
+  - use the API to change to your class first
+  ```php
+  function YOUR_MODULE_commerce_wechatpay_class_name_alter(&$class_name) {
+    $class_name = 'YOUR_OWN_HANDLER_CLASS';
+  }
+  ```
+  
+  - then define your class, it's recommand if you extend from the original class
+  ```php
+  Class YOUR_OWN_HANDLER_CLASS extends CommerceWechatpay {
+    public function orderId2outTradeNo ($order_num)
+    {
+      // I want my own way for transfering order_id to out_trade_no
+      return md5('some_secret_string'.md5($order_num));
+    }
+    
+    // other overwritten, blabla
+  }
+  ```
+
+2. Overwrite javascript process handler rather than default "proceedWXPayment"
+
+  - use the API to change to your js process handler first
+  ```php
+  function YOUR_MODULE_commerce_wechatpay_javascript_handler_name_alter(&$js_function_name) {
+    $js_function_name = 'YOUR_OWN_JS_HANDLER_FUNCTION';
+  }
+  ```
+  
+  - then define your javascript function
+  ```js
+  window.YOUR_OWN_JS_HANDLER_FUNCTION = function(configs, return_success_url, return_failure_url)
+  {
+    // some overwritten, blabla
+  }
+  ```
+
+3. Overwrite QRcode generator rather than default "commerce_wechatpay_example_qr_generator"
+  (We are currently using the qrcode generator API from [api.qrserver.com](https://qrserver.com))
+
+  - use the API to change to your generator first
+  ```php
+  function YOUR_MODULE_wechatpay_qr_generator_alter(&$qr_generator) {
+    $qr_generator = 'YOUR_GENERATOR_FUNCTION_NAME';
+  }
+  ```
+  
+  - then define your own PHP function
+  ```php
+  function YOUR_GENERATOR_FUNCTION_NAME($content)
+  {
+    // some process generation from $content
+    // blabla
+    
+    return $qr;
+  }
+  ```
+
 ## Extra stuff...
 
 I'm sorry to say but the reason I didn't use Wechatpay official sdk is because they put all credentials (APPID, Secret, MCHID, key) in "WxPay.Config.php", WTF...TT
