@@ -39,16 +39,16 @@ This moudle is using the v3 interface of wechatpay.
 
 ## API docs
 
-1. Overwrite main class handler rather than our class "CommerceWechatpay"
+##### Overwrite main class handler
   
-  - use the API to change to your class first
+  1. use the API to change to your class first
   ```php
   function YOUR_MODULE_commerce_wechatpay_class_name_alter(&$class_name) {
     $class_name = 'YOUR_OWN_HANDLER_CLASS';
   }
   ```
   
-  - then define your class, it's recommand if you extend from the original class
+  2. then define your class, it's recommand if you extend from the original class
   ```php
   Class YOUR_OWN_HANDLER_CLASS extends CommerceWechatpay {
     public function orderId2outTradeNo ($order_num)
@@ -61,16 +61,16 @@ This moudle is using the v3 interface of wechatpay.
   }
   ```
 
-2. Overwrite javascript process handler rather than default "proceedWXPayment"
+##### Overwrite javascript process handler
 
-  - use the API to change to your js process handler first
+  1. use the API to change to your js process handler first
   ```php
   function YOUR_MODULE_commerce_wechatpay_javascript_handler_name_alter(&$js_function_name) {
     $js_function_name = 'YOUR_OWN_JS_HANDLER_FUNCTION';
   }
   ```
   
-  - then define your javascript function
+  2. then define your javascript function
   ```js
   window.YOUR_OWN_JS_HANDLER_FUNCTION = function(configs, return_success_url, return_failure_url)
   {
@@ -78,17 +78,18 @@ This moudle is using the v3 interface of wechatpay.
   }
   ```
 
-3. Overwrite QRcode generator rather than default "commerce_wechatpay_example_qr_generator"
+##### Overwrite QRcode generator
+
   (We are currently using the qrcode generator API from [api.qrserver.com](https://qrserver.com))
 
-  - use the API to change to your generator first
+  1. use the API to change to your generator first
   ```php
   function YOUR_MODULE_wechatpay_qr_generator_alter(&$qr_generator) {
     $qr_generator = 'YOUR_GENERATOR_FUNCTION_NAME';
   }
   ```
   
-  - then define your own PHP function
+  2. then define your own PHP function
   ```php
   function YOUR_GENERATOR_FUNCTION_NAME($content)
   {
