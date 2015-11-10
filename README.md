@@ -25,7 +25,7 @@ Wechat payment method for Drupal Commerce
 
 1. Follow the default way of set-up a payment module for Drupal Commerce, take a look at [commerce_paypal](https://www.drupal.org/project/commerce_paypal) installation if you don't understand.
 
-2. Configure Wechat payment
+2. Configure Wechat payment (only for Merchat pay - 公众号支付)
 
   Set an authorized URL alias in Wechat back-office, [image example](https://raw.githubusercontent.com/tomzhu6066/commerce_wechatpay/master/commerce_wechatpay_configuration.jpg)
 
