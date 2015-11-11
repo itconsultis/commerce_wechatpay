@@ -72,7 +72,6 @@
                         window.location = return_success_url;
                         break;
                     default:
-                        //alert(JSON.stringify(res));
                         break;
                 }
             });
@@ -98,11 +97,9 @@
         var flag = false;
 
         var request = function () {
-            //console.log('requesting...');
             jQuery.ajax({
                 url: url,
                 success: function(data){
-                    //console.log(data);
                     if(typeof data != 'undefined' && data.status == 1){
                         flag = true;
                     }
@@ -113,7 +110,6 @@
         };
 
         var weixin_payment_status_updated = function() {
-            //console.log('checking...');
            return flag;
         };
 
