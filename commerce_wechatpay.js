@@ -102,8 +102,8 @@
             jQuery.ajax({
                 url: url,
                 success: function(data){
-                    //console.log(data);
-                    if(data == 'done!'){
+                    console.log(data);
+                    if(typeof data != 'undefined' && data.status == 1){
                         flag = true;
                     }
                 }

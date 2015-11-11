@@ -180,13 +180,13 @@ function commerce_wechatpay_settings_form($settings = NULL) {
   $form = array();
 
   $settings = (array) $settings + array(
-    'appId' => '',
-    'appSecret' => '',
-    'mchId' => '',
-    'mchKey' => '',
-    'type' => 'mp',
-    'debug' => ''
-  );
+      'appId' => '',
+      'appSecret' => '',
+      'mchId' => '',
+      'mchKey' => '',
+      'type' => 'mp',
+      'debug' => ''
+    );
   $form['appId'] = array(
     '#type' => 'textfield',
     '#title' => t('appId'),
@@ -354,28 +354,42 @@ function commerce_wechatpay_checkout_qr_handler ($data, $class, $order_id, &$for
 
   $order_status_check_url = url('commerce_wechatpay/order_status_check/'.$order_id, array('absolute' => TRUE));
 
+  $_SESSION['order_'.$order_id] = 1;
+
   $js_checking_function = commerce_wechatpay_get_js_checking_function();
   drupal_add_js($js_checking_function.'("' . $order_status_check_url . '", "' . $data['return_success_url'] . '");', 'inline');
 
 }
 
+/**
+ * Check current order if it's updated due to Wechat notification
+ * Use Session to be secure
+ * @param $order_id
+ */
 function commerce_wechatpay_order_check_handler($order_id) {
-  global $user;
-  if (is_numeric($order_id)) {
-    $order = commerce_order_load($order_id);
 
-    // if order is real and is this user
-    if ($order && $order->uid == $user->uid) {
-      $transactions = commerce_payment_transaction_load_multiple(array(), array('order_id' => $order_id));
-      if (!empty($transactions)) {
-        echo 'done!';
-        exit;
-      }
-    }
+  if (empty($_SESSION['order_'.$order_id])) {
+    header('HTTP/1.1 403 Forbidden');
+    header('Content-Type: application/json');
+    exit(json_encode(['status'=>0,'message'=>'forbidden']));
   }
-  echo 'Error';
-  exit;
+
+  if (!$order = commerce_order_load($order_id)) {
+    header('HTTP/1.1 404 Unprocessable Entity');
+    header('Content-Type: application/json');
+    exit(json_encode(['status'=>0,'message'=>'order not found']));
+  }
+
+  // if order is real and is this user
+  $transactions = commerce_payment_transaction_load_multiple(array(), array('order_id' => $order_id));
+
+  header('HTTP/1.1 200 OK');
+  header('Content-Type: application/json');
+
+  $status = !empty($transactions) ? 1 : 0;
+  exit(json_encode(['status'=>$status]));
 }
+
 
 /**
  * Menu callback function to process Wechatpay's callback notifications.

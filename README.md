@@ -2,9 +2,6 @@ Commerce Wechatpay
 ==============
 
 Wechat payment method for Drupal Commerce
-(微信支付模块)
-
-Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612324) now
 
 ## Requirements
 
@@ -28,7 +25,7 @@ Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612
 
 1. Follow the default way of set-up a payment module for Drupal Commerce, take a look at [commerce_paypal](https://www.drupal.org/project/commerce_paypal) installation if you don't understand.
 
-2. Configure Wechat payment (only for Merchat pay - 公众号支付)
+2. Configure Wechat payment
 
   Set an authorized URL alias in Wechat back-office, [image example](https://raw.githubusercontent.com/tomzhu6066/commerce_wechatpay/master/commerce_wechatpay_configuration.jpg)
 
@@ -40,7 +37,7 @@ Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612
 
 ## Payment methods
 
-1. Merchat pay (jsapi)([公众号支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_1))
+1. Merchant pay (jsapi)([公众号支付](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_1))
 
   Requires opening payment page in Wechat browser, otherwise will return error. This method is good when developing all-browse-in-wechat web page.
 
@@ -108,16 +105,14 @@ Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612
   }
   ```
   
-  2. then define your own PHP qr generation function
+  2. then define your own PHP function
   ```php
   function YOUR_GENERATOR_FUNCTION_NAME($content)
   {
-    // some little tip here: you can use phpqrcode plugin to generate with PHP, 
-    // which save A LOT!! times instead of requesting outside resouces like GOOGLE QRcode
-    // @see https://github.com/t0k4rt/phpqrcode
-    include_once 'LIBRARIES_FOLDER/t0k4rt_phpqrcode/qrlib.php';
-    QRcode::png($content, null);
-
+    // some process generation from $content
+    // blabla
+    
+    return $qr;
   }
   ```
 
