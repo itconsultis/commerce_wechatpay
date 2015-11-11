@@ -1,5 +1,8 @@
 <?php
 
+
+include_once 'commerce_wechatpay.inc';
+
 /**
  * Implements hook_requirements().
  */
@@ -69,21 +72,14 @@ function commerce_wechatpay_menu() {
   $items['commerce_wechatpay/note/%'] = array(
     'page callback' => 'commerce_wechatpay_notify_handler',
     'page arguments' => array(2),
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['commerce_wechatpay/qr_gen/%'] = array(
-    'page callback' => 'commerce_wechatpay_qr_generator_handler',
-    'page arguments' => array(2),
-    'access arguments' => array('access content'),
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
   $items['commerce_wechatpay/order_status_check/%'] = array(
     'page callback' => 'commerce_wechatpay_order_check_handler',
     'page arguments' => array(2),
-    'access arguments' => array('access content'),
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
@@ -346,13 +342,9 @@ function commerce_wechatpay_checkout_mp_handler ($data, $class, $order_id, &$for
 function commerce_wechatpay_checkout_qr_handler ($data, $class, $order_id, &$form) {
 
   $response_qrcode_url = $class->proceed_qrpay($order_id, $data['order_body'], $data['amountToWechat'], $data['notify_url']);
-  $response_qrcode_enc_url = base64_encode($response_qrcode_url);
-  $image_url = url('commerce_wechatpay/qr_gen/'.$response_qrcode_enc_url);
-
-  $qr_image = '<img src="'.$image_url.'" />';
 
   $form['qr_code'] = array(
-    '#markup' => $qr_image,
+    '#markup' => '<div class="wechat_qrcode_container" data-qrsource="'.$response_qrcode_url.'"></div>',
     '#weight' => 5
   );
 
@@ -361,12 +353,14 @@ function commerce_wechatpay_checkout_qr_handler ($data, $class, $order_id, &$for
     '#weight' => 6
   );
 
-  $order_status_check_url = url('commerce_wechatpay/order_status_check/'.$order_id, array('absolute' => TRUE));
+  drupal_add_js(drupal_get_path('module', 'commerce_wechatpay').'/resources/qrcodejs/qrcode.min.js');
 
-  $_SESSION['order_'.$order_id] = 1;
+  $order_status_check_url = url('commerce_wechatpay/order_status_check/'.$order_id, array('absolute' => TRUE));
 
   $js_checking_function = commerce_wechatpay_get_js_checking_function();
   drupal_add_js($js_checking_function.'("' . $order_status_check_url . '", "' . $data['return_success_url'] . '");', 'inline');
+
+  $_SESSION['order_'.$order_id] = 1;
 
 }
 
@@ -567,28 +561,3 @@ function commerce_wechatpay_get_credentials_from_payment_instance($payment_metho
   return $credetials;
 }
 
-function commerce_wechatpay_qr_generator_handler($url_encrypted) {
-  $content = base64_decode($url_encrypted);
-
-  $qr_generator = 'commerce_wechatpay_example_qr_generator';
-
-  // provide API to let other module alter qrcode generator function
-  drupal_alter('commerce_wechatpay_qr_generator', $qr_generator);
-
-  $qr_image_code = $qr_generator($content);
-  echo $qr_image_code;
-  exit;
-}
-
-/**
- * Default simple QRcode generator, feel free to use your own generator if needed
- *
- * @param $content Content to generate QRcode
- * @param int $h height of QRcode image
- * @return string $qr the string of the image file output
- */
-function commerce_wechatpay_example_qr_generator($content, $h = 200, $margin = 20) {
-  $url = 'https://api.qrserver.com/v1/create-qr-code/?size='.$h.'x'.$h.'&data='.$content.'&margin='.$margin;
-  $qr = file_get_contents($url);
-  return $qr;
-}
