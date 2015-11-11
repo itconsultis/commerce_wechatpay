@@ -96,30 +96,6 @@ Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612
   }
   ```
 
-##### Overwrite QRcode generator
-
-  (We are currently using the qrcode generator API from [api.qrserver.com](https://qrserver.com))
-
-  1. use the API to change to your generator first
-  ```php
-  function YOUR_MODULE_wechatpay_qr_generator_alter(&$qr_generator) {
-    $qr_generator = 'YOUR_GENERATOR_FUNCTION_NAME';
-  }
-  ```
-  
-  2. then define your own PHP qr generation function
-  ```php
-  function YOUR_GENERATOR_FUNCTION_NAME($content)
-  {
-    // some little tip here: you can use phpqrcode plugin to generate with PHP, 
-    // which save A LOT!! times instead of requesting outside resouces like GOOGLE QRcode
-    // @see https://github.com/t0k4rt/phpqrcode
-    include_once 'LIBRARIES_FOLDER/t0k4rt_phpqrcode/qrlib.php';
-    QRcode::png($content, null);
-
-  }
-  ```
-
 ## Extra stuff...
 
 I'm sorry to say but the reason I didn't use Wechatpay official sdk is because they put all credentials (APPID, Secret, MCHID, key) in "WxPay.Config.php", WTF...TT

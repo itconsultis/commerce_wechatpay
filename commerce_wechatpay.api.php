@@ -91,15 +91,3 @@ function hook_commerce_wechatpay_transaction_presave_alter(&$transaction, $feedb
   $transaction->remote_id = 'NEW_TRANSACTION_ID';
 }
 
-/**
- * Allows modules to alter the QRcode generator function to use your own generator
- *
- * By default is using Google generator, but is very slow in some country
- * If you see a broken QRcode image, please use this API function to use another generator
- *
- * @see commerce_wechatpay_google_qr_generator()
- * @see commerce_wechatpay_qr_generator_handler()
- */
-function hook_commerce_wechatpay_qr_generator_alter(&$qr_generator) {
-  $qr_generator = 'YOUR_GENERATOR_FUNCTION_NAME';
-}
