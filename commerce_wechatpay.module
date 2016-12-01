@@ -24,7 +24,7 @@ function commerce_wechatpay_requirements($phase) {
     else {
       $requirements['overtrue_wechat']['value'] = t('Not Installed');
       $requirements['overtrue_wechat']['severity'] = REQUIREMENT_ERROR;
-      $requirements['overtrue_wechat']['description'] = t('Please download the overtrue_wechat SDK package via %url and place it inside libraries folder with structure -> "sites/all/libraries/overtrue_wechat/src/Wechat/..."', array('%url' => 'https://github.com/overtrue/wechat'));
+      $requirements['overtrue_wechat']['description'] = t('Please download the overtrue_wechat SDK package via %url and place it inside libraries folder with structure -> "sites/all/libraries/overtrue_wechat/vendor/autoload.php"', array('%url' => 'https://github.com/overtrue/wechat'));
     }
 
   }
@@ -52,8 +52,8 @@ function commerce_wechatpay_init() {
   // load sdk
   $path = libraries_get_path('overtrue_wechat');
   $realpath = drupal_realpath($path);
-  if(file_exists($realpath.'/autoload.php')){
-    include_once $realpath.'/autoload.php';
+  if(file_exists($realpath.'/vendor/autoload.php')){
+    include_once $realpath.'/vendor/autoload.php';
     include_once 'commerce_wechatpay.inc';
   }
   else {
@@ -560,4 +560,3 @@ function commerce_wechatpay_get_credentials_from_payment_instance($payment_metho
 
   return $credetials;
 }
-
