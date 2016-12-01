@@ -15,8 +15,8 @@ Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612
 
   ```shell
   cd PATH_TO_DRUPAL/sites/all/libraries
-  git clone https://github.com/overtrue/wechat.git
-  mv wechat/ overtrue_wechat/
+  git clone https://github.com/overtrue/wechat.git overtrue_wechat
+  composer install
   ```
   
   更多关于此SDK的信息请[参考文档](https://github.com/overtrue/wechat/wiki/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98)
