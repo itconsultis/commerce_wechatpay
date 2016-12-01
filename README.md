@@ -14,8 +14,17 @@ Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612
   Please download SDK package and put inside "libraries" folder before install this module
 
   ```shell
+  mkdir -p PATH_TO_DRUPAL/sites/all/libraries/overtrue_wechat
+  cd PATH_TO_DRUPAL/sites/all/libraries/overtrue_wechat
+  composer require "overtrue/wechat:~3.1"
+  ```
+
+  or
+
+  ```shell
   cd PATH_TO_DRUPAL/sites/all/libraries
   git clone https://github.com/overtrue/wechat.git overtrue_wechat
+  # composer install --no-dev --prefer-dist --optimize-autoloader
   composer install
   ```
   
