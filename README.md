@@ -10,12 +10,14 @@ Also available in [Drupal sandbox](https://www.drupal.org/sandbox/yuhao6066/2612
 1. SDK package [overtrue/wechat](https://github.com/overtrue/wechat)
 
   在安装本模块前，请下载overtrue的wechatSDK，并放入"libraries"文件夹中
+  注意：wechatSDK版本必须小于 3.0
   
   Please download SDK package and put inside "libraries" folder before install this module
-
+  note：The wechatSDK version have to less than 3.0
+  
   ```shell
   cd PATH_TO_DRUPAL/sites/all/libraries
-  git clone https://github.com/overtrue/wechat.git
+  git clone --branch 2.1.41 https://github.com/overtrue/wechat.git
   mv wechat/ overtrue_wechat/
   ```
   
