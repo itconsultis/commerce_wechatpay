@@ -94,6 +94,23 @@ function commerce_wechatpay_menu() {
  */
 function commerce_wechatpay_commerce_checkout_page_info_alter(&$checkout_pages) {
   //TODO: make a better solution to hide the help message
+
+  foreach ($checkout_pages as $page_id => $checkout_page) {
+    $defaults = array(
+      'page_id' => $page_id,
+      'name' => $checkout_page['title'],
+      'title' => '',
+      'help' => '',
+      'status_cart' => TRUE,
+      'buttons' => TRUE,
+      'back_value' => t('Go back'),
+      'submit_value' => t('Continue to next step'),
+      'prev_page' => NULL,
+      'next_page' => NULL,
+    );
+    $checkout_pages[$page_id] += $defaults;
+  }
+  
   if(arg(0) == 'checkout' && arg(2) == 'payment' && is_numeric(arg(1))){
     $order_id = arg(1);
     $order = commerce_order_load($order_id);
@@ -272,14 +289,22 @@ function commerce_wechatpay_redirect_out($form, &$form_state) {
  * Main checkout process function
  */
 function commerce_wechatpay_checkout_handler($order_id, $payment_inst_id, &$form) {
-
+  
+  global $language;
+  
   $data = array();
-
+  //setting notify_url is default_language 
+  $default_language = language_default();
   $payment_method_inst = commerce_payment_method_instance_load($payment_inst_id);
   $credentials = commerce_wechatpay_get_credentials_from_payment_instance($payment_method_inst);
   $classname = commerce_wechatpay_get_handler_class();
   $class = new $classname($credentials[0], $credentials[1], $credentials[2], $credentials[3]);
-
+  
+  $options = array('absolute' => TRUE);
+  if ($language->language != $default_language->language) {
+    $options += array('language' => $default_language); 
+  }
+  
   // Load order entity
   $order = commerce_order_load($order_id);
   $wrapper = entity_metadata_wrapper('commerce_order', $order);
@@ -293,11 +318,10 @@ function commerce_wechatpay_checkout_handler($order_id, $payment_inst_id, &$form
 
   // Set notify url to listen to wechat notification
   $encrypted_inst_id = htmlentities($payment_inst_id);
-  $data['notify_url'] = url('commerce_wechatpay/note/'. $encrypted_inst_id, array('absolute' => TRUE));
-
-  $data['return_success_url'] = url('checkout/'.$order_id.'/complete', array('absolute' => TRUE));
-  $data['return_failure_url'] = url('', array('absolute' => TRUE));
-
+  $data['notify_url'] = url('commerce_wechatpay/note/'. $encrypted_inst_id, $options);
+  $data['return_success_url'] = url('checkout/'.$order_id.'/complete', $options);
+  $data['return_failure_url'] = url('', $options);
+  
   // provide API to let other module alter data before sending to wechat payment gateway or calling javascript
   drupal_alter('commerce_wechatpay_data', $data, $payment_method_inst, $order);
 
@@ -560,4 +584,3 @@ function commerce_wechatpay_get_credentials_from_payment_instance($payment_metho
 
   return $credetials;
 }
-
