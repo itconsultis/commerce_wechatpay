@@ -580,7 +580,7 @@ function commerce_wechatpay_get_credentials_from_payment_instance($payment_metho
     return array();
   }
 
-  $credetials = array($appId, $appSecret, $mchId, $mchKey);
+  $credentials = array($appId, $appSecret, $mchId, $mchKey);
 
-  return $credetials;
+  return $credentials;
 }
